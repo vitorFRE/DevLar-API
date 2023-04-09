@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EstateStatus {
+  id                 String   @id @default(uuid())
+  estate_status_name String
+  estates            Estate[]
+}
+
+model EstateType {
+  id               String   @id @default(uuid())
+  estate_type_name String
+  estates          Estate[]
+}
+
+model EstateImages {
+  id        String @id @default(uuid())
+  estate_id String
+  image_url String
+  estate    Estate @relation(fields: [estate_id], references: [id])
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  role          Role     @default(MEMBER)
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+}
+
+model Estate {
+  id                 String         @id @default(uuid())
+  price              Int
+  estate_description String
+  estate_name        String
+  street_number      Int
+  city_name          String
+  zip_code           String
+  neighborhood_name  String
+  street_name        String
+  garages_number     Int
+  bedrooms_number    Int
+  bathrooms_number   Int
+  estate_status      EstateStatus   @relation(fields: [estate_status_id], references: [id])
+  estate_status_id   String
+  estate_type        EstateType     @relation(fields: [estate_type_id], references: [id])
+  estate_type_id     String
+  estate_images      EstateImages[]
+  created_at         DateTime       @default(now())
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
