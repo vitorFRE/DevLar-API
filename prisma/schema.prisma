@@ -14,12 +14,16 @@ model EstateStatus {
   id                 String   @id @default(uuid())
   estate_status_name String
   estates            Estate[]
+
+  @@map("estate_statuses")
 }
 
 model EstateType {
   id               String   @id @default(uuid())
   estate_type_name String
   estates          Estate[]
+
+  @@map("estate_types")
 }
 
 model EstateImages {
@@ -27,27 +31,31 @@ model EstateImages {
   estate_id String
   image_url String
   estate    Estate @relation(fields: [estate_id], references: [id])
+
+  @@map("estate_images")
 }
 
 model User {
   id            String   @id @default(uuid())
-  name          String
+  name          String   @db.VarChar(64)
   role          Role     @default(MEMBER)
-  email         String   @unique
+  email         String   @unique @db.VarChar(100)
   password_hash String
   created_at    DateTime @default(now())
+
+  @@map("users")
 }
 
 model Estate {
   id                 String         @id @default(uuid())
   price              Int
-  estate_description String
-  estate_name        String
+  estate_description String         @db.VarChar(1000)
+  estate_name        String         @db.VarChar(100)
   street_number      Int
-  city_name          String
-  zip_code           String
-  neighborhood_name  String
-  street_name        String
+  city_name          String         @db.VarChar(64)
+  zip_code           String         @db.VarChar(10)
+  neighborhood_name  String         @db.VarChar(64)
+  street_name        String         @db.VarChar(100)
   garages_number     Int
   bedrooms_number    Int
   bathrooms_number   Int
@@ -57,6 +65,8 @@ model Estate {
   estate_type_id     String
   estate_images      EstateImages[]
   created_at         DateTime       @default(now())
+
+  @@map("estates")
 }
 
 enum Role {

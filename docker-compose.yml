@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  devlar-api-pg:
+    image: 'bitnami/postgresql:latest'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRESQL_USERNAME=devlar
+      - POSTGRESQL_PASSWORD=devlar
+      - POSTGRESQL_DATABASE=devlarapi
