@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsup src --out-dir build",
     "start": "node build/server.js",
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "test": "vitest run --dir src/use-cases"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "tsup": "6.7.0",
     "tsx": "3.12.6",
     "typescript": "5.0.4",
+    "vite-tsconfig-paths": "4.1.0",
     "vitest": "0.30.0"
   },
   "dependencies": {
