@@ -1,12 +1,12 @@
 import { type Prisma, Role, type User } from '@prisma/client'
 import type { UsersRepository } from '../usersRepository'
 
-export class inMemoryUsersRepository implements UsersRepository {
+export class InMemoryUsersRepository implements UsersRepository {
   public items: User[] = []
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
     const user = {
-      id: 'd3f4f5g6h7j8k9l0',
+      id: '543',
       name: data.name,
       email: data.email,
       role: Role.MEMBER,
