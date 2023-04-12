@@ -3,14 +3,18 @@ import { RegisterUseCase } from './registerUseCase'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import { compare } from 'bcryptjs'
+import { EmailValidatorAdapter } from '@/utils/EmailValidator'
+import { InvalidEmailError } from './errors/InvalidEmailError'
 
 let usersRepository: InMemoryUsersRepository
+let emailValidator: EmailValidatorAdapter
 let sut: RegisterUseCase
 
 describe('RegisterUseCase test', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
-    sut = new RegisterUseCase(usersRepository)
+    emailValidator = new EmailValidatorAdapter()
+    sut = new RegisterUseCase(usersRepository, emailValidator)
   })
 
   it('should create a new user', async () => {
@@ -49,5 +53,16 @@ describe('RegisterUseCase test', () => {
     const isPasswordHashed = await compare('123456', user.password_hash)
 
     expect(isPasswordHashed).toBe(true)
+  })
+
+  it('should not create a new user with an invalid email', async () => {
+    await expect(
+      async () =>
+        await sut.execute({
+          name: 'John Doe',
+          email: 'invalid_email',
+          password: '123456'
+        })
+    ).rejects.toBeInstanceOf(InvalidEmailError)
   })
 })
