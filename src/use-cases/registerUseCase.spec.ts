@@ -2,6 +2,7 @@ import { InMemoryUsersRepository } from '@/repositories/inMemory/InMemoryUsersRe
 import { RegisterUseCase } from './registerUseCase'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { compare } from 'bcryptjs'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
@@ -18,7 +19,6 @@ describe('RegisterUseCase test', () => {
       email: 'email@email.com',
       password: '123456'
     })
-    console.log(user)
     expect(user).toHaveProperty('id')
   })
 
@@ -37,5 +37,17 @@ describe('RegisterUseCase test', () => {
           password: '123456'
         })
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
+  it('password should be hashed', async () => {
+    const { user } = await sut.execute({
+      name: 'John Doe',
+      email: 'jaexiste@email.com',
+      password: '123456'
+    })
+
+    const isPasswordHashed = await compare('123456', user.password_hash)
+
+    expect(isPasswordHashed).toBe(true)
   })
 })
