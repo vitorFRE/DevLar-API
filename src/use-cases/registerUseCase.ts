@@ -5,7 +5,7 @@ import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import type { EmailValidator } from '@/@types/EmailValidatorType'
 import { InvalidEmailError } from './errors/InvalidEmailError'
 
-interface RegisterUseCaseProps {
+export interface RegisterUseCaseProps {
   name: string
   email: string
   password: string
