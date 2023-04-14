@@ -5,16 +5,19 @@ import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import { compare } from 'bcryptjs'
 import { EmailValidatorAdapter } from '@/utils/EmailValidator'
 import { InvalidEmailError } from './errors/InvalidEmailError'
+import { BcryptHashGenerator } from '@/utils/BcryptHashGenerator'
 
 let usersRepository: InMemoryUsersRepository
 let emailValidator: EmailValidatorAdapter
+let passwordHashGenerator: BcryptHashGenerator
 let sut: RegisterUseCase
 
 describe('RegisterUseCase test', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
     emailValidator = new EmailValidatorAdapter()
-    sut = new RegisterUseCase(usersRepository, emailValidator)
+    passwordHashGenerator = new BcryptHashGenerator()
+    sut = new RegisterUseCase(usersRepository, emailValidator, passwordHashGenerator)
   })
 
   it('should create a new user', async () => {

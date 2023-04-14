@@ -1,9 +1,9 @@
 import type { UsersRepository } from '@/repositories/usersRepository'
 import type { User } from '@prisma/client'
-import { hash } from 'bcryptjs'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import type { EmailValidator } from '@/@types/EmailValidatorType'
 import { InvalidEmailError } from './errors/InvalidEmailError'
+import type { PasswordHashGenerator } from '@/@types/PasswordHashGeneratorType'
 
 export interface RegisterUseCaseProps {
   name: string
@@ -18,7 +18,8 @@ interface RegisterUseCaseResponse {
 export class RegisterUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
-    private readonly emailValidator: EmailValidator
+    private readonly emailValidator: EmailValidator,
+    private readonly passwordHashGenerator: PasswordHashGenerator
   ) {}
 
   async execute({
@@ -26,7 +27,7 @@ export class RegisterUseCase {
     email,
     password
   }: RegisterUseCaseProps): Promise<RegisterUseCaseResponse> {
-    const passwordHash = await hash(password, 6)
+    const passwordHash = await this.passwordHashGenerator.generate(password)
 
     if (!this.emailValidator.isValid(email)) {
       throw new InvalidEmailError()
