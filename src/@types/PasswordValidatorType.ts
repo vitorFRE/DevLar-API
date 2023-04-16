@@ -1,3 +1,3 @@
 export interface PasswordValidator {
-  validate: (value: string) => Promise<boolean>
+  isValid: (value: string) => boolean
 }
