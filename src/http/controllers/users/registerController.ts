@@ -1,4 +1,5 @@
 import { InvalidEmailError } from '@/use-cases/errors/InvalidEmailError'
+import { InvalidPasswordError } from '@/use-cases/errors/InvalidPasswordError'
 import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
 import { makeRegisterUseCase } from '@/use-cases/factories/makeRegisterUseCase'
 import type { RegisterUseCaseProps } from '@/use-cases/registerUseCase'
@@ -20,6 +21,10 @@ export async function registerController(
     }
 
     if (error instanceof InvalidEmailError) {
+      return await reply.status(400).send({ message: error.message })
+    }
+
+    if (error instanceof InvalidPasswordError) {
       return await reply.status(400).send({ message: error.message })
     }
 
