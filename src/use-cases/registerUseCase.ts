@@ -5,6 +5,7 @@ import type { EmailValidator } from '@/@types/EmailValidatorType'
 import { InvalidEmailError } from './errors/InvalidEmailError'
 import type { PasswordHashGenerator } from '@/@types/PasswordHashGeneratorType'
 import type { PasswordValidator } from '@/@types/PasswordValidatorType'
+import { InvalidPasswordError } from './errors/InvalidPasswordError'
 
 export interface RegisterUseCaseProps {
   name: string
@@ -33,6 +34,10 @@ export class RegisterUseCase {
 
     if (!this.emailValidator.isValid(email)) {
       throw new InvalidEmailError()
+    }
+
+    if (!this.passwordValidator.isValid(password)) {
+      throw new InvalidPasswordError()
     }
 
     const userAlreadyExists = await this.usersRepository.findByEmail(email)
