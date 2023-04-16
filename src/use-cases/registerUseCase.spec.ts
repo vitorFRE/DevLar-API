@@ -78,7 +78,7 @@ describe('RegisterUseCase test', () => {
     ).rejects.toBeInstanceOf(InvalidEmailError)
   })
 
-  it('should not create a new user whi an invalid password', async () => {
+  it('should not create a new user with an invalid password', async () => {
     await expect(
       async () =>
         await sut.execute({
