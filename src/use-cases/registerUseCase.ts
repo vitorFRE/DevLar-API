@@ -4,6 +4,7 @@ import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import type { EmailValidator } from '@/@types/EmailValidatorType'
 import { InvalidEmailError } from './errors/InvalidEmailError'
 import type { PasswordHashGenerator } from '@/@types/PasswordHashGeneratorType'
+import type { PasswordValidator } from '@/@types/PasswordValidatorType'
 
 export interface RegisterUseCaseProps {
   name: string
@@ -19,7 +20,8 @@ export class RegisterUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly emailValidator: EmailValidator,
-    private readonly passwordHashGenerator: PasswordHashGenerator
+    private readonly passwordHashGenerator: PasswordHashGenerator,
+    private readonly passwordValidator: PasswordValidator
   ) {}
 
   async execute({
