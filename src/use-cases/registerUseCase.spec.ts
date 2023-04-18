@@ -88,4 +88,21 @@ describe('RegisterUseCase test', () => {
         })
     ).rejects.toBeInstanceOf(InvalidPasswordError)
   })
+
+  it('should throw a UserAlreadyExistsError when email already exists', async () => {
+    await sut.execute({
+      name: 'John Doe',
+      email: 'jaexiste@email.com',
+      password: 'minhasenha777'
+    })
+
+    await expect(
+      async () =>
+        await sut.execute({
+          name: 'John Doe',
+          email: 'jaexiste@email.com',
+          password: 'minhasenha777'
+        })
+    ).rejects.toThrow(UserAlreadyExistsError)
+  })
 })
