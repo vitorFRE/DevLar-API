@@ -16,7 +16,7 @@ interface AuthenticateUseCaseResponse {
   user: User
 }
 
-export class authenticateUseCase {
+export class AuthenticateUseCase {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly emailValidator: EmailValidator,
