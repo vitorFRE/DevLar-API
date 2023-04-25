@@ -30,7 +30,8 @@ describe('AuthenticateUseCase test', () => {
       password: 'minhaSenhaValida1'
     })
 
-    console.log(user)
     expect(user).toHaveProperty('id')
+    expect(user).toHaveProperty('name', 'Lee')
+    expect(user).toHaveProperty('email', 'lee779@link.com')
   })
 })
