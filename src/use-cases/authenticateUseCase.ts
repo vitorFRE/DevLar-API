@@ -7,7 +7,7 @@ import type { PasswordValidator } from '@/@types/PasswordValidatorType'
 import { InvalidEmailError } from './errors/InvalidEmailError'
 import { InvalidPasswordError } from './errors/InvalidPasswordError'
 
-interface AuthenticateUseCaseRequest {
+export interface AuthenticateUseCaseProps {
   email: string
   password: string
 }
@@ -26,7 +26,7 @@ export class AuthenticateUseCase {
   async execute({
     email,
     password
-  }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
+  }: AuthenticateUseCaseProps): Promise<AuthenticateUseCaseResponse> {
     const user = await this.usersRepository.findByEmail(email)
 
     if (!this.emailValidator.isValid(email)) {
