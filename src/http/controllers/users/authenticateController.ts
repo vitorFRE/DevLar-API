@@ -8,7 +8,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 export async function authenticateController(
   request: FastifyRequest,
   reply: FastifyReply
-) {
+): Promise<void> {
   const { email, password } = request.body as AuthenticateUseCaseProps
 
   try {
